@@ -80,4 +80,5 @@ for chunk in trade_list.split(","):
 		# A: Get better users
 
 # Build the final string
-print(search_string[:-1] + string_const + mod_string)
+if len(search_string) > 0: # only print if any mon found
+	print(search_string[:-1] + string_const + mod_string)
