@@ -48,4 +48,12 @@ for chunk in trade_list.split(','):
 					else:
 						mod_string += "&!" + evo + mon + "," + mod
 
+for mon in no_line_mon: # only search for a specific mon in the evolutionary line
+	search_string = search_string.replace(",+" + mon + ",", "," + mon + ",")
+	search_string = search_string.replace(",+" + mon + "&", "," + mon + "&")
+
+for mon in yes_line_mon: # search for any mon in the evolutionary line
+	search_string = search_string.replace("," + mon + ",", ",+" + mon + ",")
+	search_string = search_string.replace("," + mon + "&", ",+" + mon + "&")
+
 print(search_string[1:] + string_const + mod_string)
