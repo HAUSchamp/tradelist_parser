@@ -24,6 +24,9 @@ modifiers = ["male", "female",
 # Map alternate spellings for modifiers
 mod_maps = {"paldean":"paldea", "hisuian":"hisui", "unovan":"unova", "alolan":"alola"}
 
+# Special case: pokemon whose name contains a space
+space_mon = [mon for mon in mon_list if " " in mon]
+
 # Delimiters for pairing modifiers with mon names
 delimiters = [";", ":", "\n"] # comma implicit
 
@@ -58,6 +61,12 @@ for chunk in trade_list.split(","):
 			chunk_mods.append(mod_maps[subchunk])
 		elif subchunk in mon_list: # found mon name
 			chunk_mon = subchunk
+
+	# check for whitespace-containing mon name if none were previously found
+	if len(chunk_mon) == 0: 
+		for mon in space_mon:
+			if mon in chunk:
+				chunk_mon = mon
 
 	# Only do anything if chunk contains a mon
 	if len(chunk_mon) > 0: 
