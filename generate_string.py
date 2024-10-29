@@ -2,7 +2,7 @@
 # User-modifiable paramaters
 
 # Constant to add to each string (e.g. exclude shinies or alr. traded mon)
-string_const = "&!traded&!shiny&!#&!favorite&!rocket&!4*"
+string_const = "&!traded&!shiny&!favorite&!rocket&!4*&!#"
 
 # Include a mon's evolutionary line by default?
 include_evo_line = True
