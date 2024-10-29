@@ -22,7 +22,7 @@ modifiers = ["male", "female",
 "--", "+"]
 
 # Map alternate spellings for modifiers
-mod_maps = {"paldean":"paldea", "hisuian":"hisui", "unovan":"unova", "alolan":"alola"}
+mod_maps = {"paldean":"paldea", "hisuian":"hisui", "unovan":"unova", "alolan":"alola", "galarian":"galar"}
 
 # Special case: pokemon whose name contains a space
 space_mon = [mon for mon in mon_list if " " in mon]
