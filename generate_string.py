@@ -18,7 +18,8 @@ PASTE TRADE LIST HERE
 modifiers = ["male", "female", 
 "normal", "fire", "water", "electric", "grass", "ice", "fighting", "poison", "ground", "flying", "psychic", "bug", "rock", "ghost", "dragon", "dark", "steel", "fairy", 
 "kanto", "johto", "hoenn", "sinnoh", "unova", "kalos", "alola", "galar", "hisui", "paldea", 
-"dynamax", "gigantamax", 
+"dynamax", "gigantamax",
+"costume",
 "--", "+"]
 
 # Map alternate spellings for modifiers
