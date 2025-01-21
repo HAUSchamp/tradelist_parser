@@ -40,8 +40,8 @@ evo_line_default = "+"*include_evo_line
 
 # Build search string
 
-search_string = ""
-mod_string = ""
+mon_to_search = []
+search_modifiers = {}
 
 # Loop through comma-delimited chunks to identify modifier + mon combos
 for chunk in trade_list.split(","):
@@ -75,6 +75,8 @@ for chunk in trade_list.split(","):
 		# Start with default incl/exclusion of line
 		chunk_evo_line = evo_line_default 
 
+		non_evo_mods = []
+
 		# Apply modifiers to the final string
 		for mod in chunk_mods:
 			if mod == "--": # exclude evos
@@ -82,13 +84,32 @@ for chunk in trade_list.split(","):
 			elif mod == "+": # include evos
 				chunk_evo_line = "+"
 			else: # all other modifiers
-				mod_string += "&!" + chunk_evo_line + chunk_mon + "," + mod
-		# Add new mon to string
-		search_string += chunk_evo_line + chunk_mon + ","
+				non_evo_mods.append(mod)
+		
+		# Add new mon to overall list
+		new_mon = chunk_evo_line + chunk_mon
+		mon_to_search.append(new_mon)
+		
+		# Add modifiers for new mon, if there are any
+		if len(non_evo_mods) > 0:
+			if new_mon in search_modifiers:
+				search_modifiers[new_mon] += non_evo_mods
+			else:
+				search_modifiers[new_mon] = non_evo_mods
 
 		# Q: What happens if a user puts "+" and "--" keywords?
 		# A: Get better users
 
 # Build the final string
+search_string = ",".join(sorted(list(set(mon_to_search))))
+mod_string = ""
+mod_errors = []
+
+for k in sorted(search_modifiers.keys()):
+	mod_list = search_modifiers[k]
+	if len(mod_list) > 1:
+		mod_errors.append("multiple modifiers found, using first modifier from " + str(mod_list) + " for " +k)
+	mod_string += "&!" + k + "," + mod_list[0]
+
 if len(search_string) > 0: # only print if any mon found
-	print(search_string[:-1] + string_const + mod_string)
+	print(search_string + mod_string + string_const)
