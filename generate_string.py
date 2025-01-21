@@ -106,7 +106,7 @@ mod_string = ""
 mod_errors = []
 
 for k in sorted(search_modifiers.keys()):
-	mod_list = search_modifiers[k]
+	mod_list = list(set(search_modifiers[k]))
 	if len(mod_list) > 1:
 		mod_errors.append("multiple modifiers found, using first modifier from " + str(mod_list) + " for " +k)
 	mod_string += "&!" + k + "," + mod_list[0]
