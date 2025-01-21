@@ -113,3 +113,6 @@ for k in sorted(search_modifiers.keys()):
 
 if len(search_string) > 0: # only print if any mon found
 	print(search_string + mod_string + string_const)
+
+if len(mod_errors) > 0:
+	print("\n"+"\n".join(mod_errors))
