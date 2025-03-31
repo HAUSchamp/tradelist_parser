@@ -14,6 +14,17 @@ PASTE TRADE LIST HERE
 
 ############################
 
+# Generate mon list from mon -> family map
+mon_list = [k.lower() for k in mon_family_map.keys()]
+
+# Generate family -> mon map
+family_mon_map = {} # use defaultdict
+for k in mon_family_map.keys():
+	try:
+		family_mon_map[mon_family_map[k]].append(k)
+	except KeyError:
+		family_mon_map[mon_family_map[k]] = [k]
+
 # In-game search modifiers
 modifiers = ["male", "female", 
 "normal", "fire", "water", "electric", "grass", "ice", "fighting", "poison", "ground", "flying", "psychic", "bug", "rock", "ghost", "dragon", "dark", "steel", "fairy", 
