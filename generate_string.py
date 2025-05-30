@@ -31,6 +31,7 @@ modifiers = ["male", "female",
 "kanto", "johto", "hoenn", "sinnoh", "unova", "kalos", "alola", "galar", "hisui", "paldea", 
 "dynamax", "gigantamax",
 "costume",
+"xxs", "xxl",
 "--", "+"]
 
 # Map alternate spellings for modifiers
@@ -62,7 +63,7 @@ for chunk in trade_list.split(","):
 	chunk_mon = ""
 
 	# Adding space lets users put "+" and "--" keywords next to the mon name
-	chunk = chunk.replace("--", "-- ").replace("+", "+ ")
+	chunk = chunk.replace("--", " -- ").replace("+", " + ")
 
 	# Loop through all whitespace- or underscore-delimited bits
 	for subchunk in chunk.replace("_", " ").split():
@@ -84,7 +85,7 @@ for chunk in trade_list.split(","):
 	if len(chunk_mon) > 0: 
 		
 		# Start with default incl/exclusion of line
-		chunk_evo_line = evo_line_default 
+		chunk_evo_line = evo_line_default
 
 		non_evo_mods = []
 
@@ -96,9 +97,15 @@ for chunk in trade_list.split(","):
 				chunk_evo_line = "+"
 			else: # all other modifiers
 				non_evo_mods.append(mod)
-		
-		# Add new mon to overall list
-		new_mon = chunk_evo_line + chunk_mon
+		if len(chunk_mods) == 0:
+			non_evo_mods.append("unmodified")
+
+		# If searching for anything in the family, add to the family list
+		if chunk_evo_line: 
+			new_mon = mon_family_map[chunk_mon]
+		# Or if searching for only that mon stage, add it to the mon list
+		else: 
+			new_mon = chunk_mon
 		mon_to_search.append(new_mon)
 		
 		# Add modifiers for new mon, if there are any
@@ -112,15 +119,29 @@ for chunk in trade_list.split(","):
 		# A: Get better users
 
 # Build the final string
-search_string = ",".join(sorted(list(set(mon_to_search))))
+def resolve_mon(mon, fam_mon_map):
+	"""
+	Resolves name name of family to base Pokemon name, if applicable.
+	Otherwise returns name given.
+	"""
+	if mon.startswith("FAMILY_"):
+		return("+"+fam_mon_map[mon][0])
+	else:
+		return(mon)
+
+search_string = ",".join(sorted(list(set([resolve_mon(mon, family_mon_map) for mon in mon_to_search]))))
+
+# Build the string of search modifiers
 mod_string = ""
 mod_errors = []
 
 for k in sorted(search_modifiers.keys()):
 	mod_list = list(set(search_modifiers[k]))
 	if len(mod_list) > 1:
-		mod_errors.append("multiple modifiers found, using first modifier from " + str(mod_list) + " for " +k)
-	mod_string += "&!" + k + "," + mod_list[0]
+		mod_errors.append("multiple modifiers found, " + str(mod_list) + ", ignoring modifiers for " +k)
+	else:
+		if mod_list[0] != "unmodified":
+			mod_string += "&!" + resolve_mon(k, family_mon_map) + "," + mod_list[0]
 
 if len(search_string) > 0: # only print if any mon found
 	print(search_string + mod_string + string_const)
