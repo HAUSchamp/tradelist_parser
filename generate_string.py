@@ -124,7 +124,7 @@ def resolve_mon(mon, fam_mon_map):
 	Resolves name name of family to base Pokemon name, if applicable.
 	Otherwise returns name given.
 	"""
-	if mon.startswith("FAMILY_"):
+	if "FAMILY" in mon:
 		return("+"+fam_mon_map[mon][0])
 	else:
 		return(mon)
