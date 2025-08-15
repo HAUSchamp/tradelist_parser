@@ -136,17 +136,14 @@ def generate_trade_list(trade_list = "", string_const = "&!traded&!shiny&!favori
 			# A: Get better users
 	
 	# Build the final string
-	print(mon_to_search)
 	all_mon_list = []
 	for mon in mon_to_search:
 		all_mon_list += resolve_mon(mon, family_mon_map)
 
-	print(all_mon_list)
 	all_mon_set = []
 	for mon in all_mon_list:
 		if mon not in all_mon_set and "+"+mon not in all_mon_set:
 			all_mon_set.append(mon)
-	print(all_mon_set)
 	search_string = ",".join(sorted(all_mon_set))
 	
 	# Build the string of search modifiers
